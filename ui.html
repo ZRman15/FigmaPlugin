@@ -1,0 +1,55 @@
+<h2>Parameter Extractor</h2>
+<button id="extract">Extract</button>
+<button id="close">Close</button>
+<div id="properties"></div>
+
+<script>
+
+document.getElementById('extract').onclick = () => {
+
+  parent.postMessage({
+    pluginMessage: {
+      type: 'extract'
+    }
+  }, '*')
+}
+
+document.getElementById('close').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
+}
+
+onmessage = (event) => {
+      const pluginMessage = event.data.pluginMessage;
+
+      if (pluginMessage) {
+        // Convert the string back to an object
+        const propertiesObject = JSON.parse(pluginMessage.message);
+
+        // Display the properties in the UI
+        // Here, we're just converting the object back to a string for simplicity
+        document.getElementById('properties').innerText = JSON.stringify(propertiesObject, null, 2);
+      }
+    };
+
+
+//receive message from plugin
+onmessage = (event) => {
+  const message = event.data.pluginMessage
+  if (message.type === 'properties') {
+    print()
+  }
+}
+
+//writes the properties to the Ui as a list
+const writeProperties = (properties) => {
+  const list = document.getElementById('properties')
+  list.innerHTML = ''
+  properties.forEach((property) => {
+    const item = document.createElement('li')
+    item.textContent = property
+    list.appendChild(item)
+  })
+}
+
+
+</script>
