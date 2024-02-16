@@ -5,7 +5,7 @@ figma.ui.onmessage = msg => {
   // One way of distinguishing between different types of messages sent from
   // your HTML page is to use an object with a "type" property like this.
   if (msg.type === 'extract') {
-    const selectionType = figma.currentPage.selection[0].type;
+    const selectionType = figma.currentPage.selection[0].annotations;
     console.log(selectionType);
     const selected = figma.currentPage.selection as ComponentNode[] ;
     const properties = selected.map((layer) => {
@@ -22,7 +22,6 @@ figma.ui.onmessage = msg => {
         fills: layer.fills,
         layoutType: layer.layoutSizingHorizontal,
         verticalLayoutType: layer.layoutSizingVertical,
-        strokePosition: layer.strokePosition,
         id: layer.id,
         type: layer.type};
     });
