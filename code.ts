@@ -1,6 +1,7 @@
 //shows the UI
 figma.showUI(__html__, { width: 400, height: 600 });
 
+
 figma.ui.onmessage = msg => {
   // One way of distinguishing between different types of messages sent from
   // your HTML page is to use an object with a "type" property like this.
@@ -22,13 +23,14 @@ figma.ui.onmessage = msg => {
         fills: layer.fills,
         layoutType: layer.layoutSizingHorizontal,
         verticalLayoutType: layer.layoutSizingVertical,
-        strokePosition: layer.strokePosition,
         id: layer.id,
         type: layer.type};
     });
     const propertiesString = JSON.stringify(properties);
     figma.ui.postMessage({message: propertiesString});
     console.log(propertiesString);  
+     // Send the properties array directly to the UI
+    figma.ui.postMessage({ type: 'export-csv', properties });
 
   }
   if (msg.type === 'close'){
